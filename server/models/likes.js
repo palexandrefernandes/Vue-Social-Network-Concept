@@ -8,6 +8,10 @@ class Likes extends Model{
         return 'likes';
     }
 
+    static get idColumn(){
+        return ['post_id', 'user_id'];
+    }
+
     static get relationshipMappings(){
         const User = require('./user');
         const Post = require('./post');

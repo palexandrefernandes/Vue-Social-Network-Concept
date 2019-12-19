@@ -7,6 +7,9 @@ class Comment extends Model {
     static get tableName(){
         return 'comments';
     }
+    static get idColumn(){
+        return 'id';
+    }
 
     static get relationMapping(){
         const Post = require('./post');

@@ -8,6 +8,10 @@ class Post extends Model{
         return 'posts';
     }
 
+    static get idColumn(){
+        return 'post_id';
+    }
+
     static get relationshipMappings(){
         const User = require('user');
         const Shoutout = require('shoutout');
@@ -27,7 +31,8 @@ class Post extends Model{
                     from: 'posts.id',
                     through: {
                         from: 'likes.post_id',
-                        to: 'like.user_id'
+                        to: 'like.user_id',
+                        extra: ['liked_date']
                     },
                     to: 'users.id'
                 }

@@ -8,6 +8,10 @@ class Shoutout extends Model {
         return 'shoutouts';
     }
 
+    static get idColumn(){
+        return ['post_id', 'identified_id'];
+    }
+
     static get relationMappings() {
         const Post = require('./post');
         const User = require('./user');
@@ -27,7 +31,7 @@ class Shoutout extends Model {
                     from: 'shoutouts.post_id',
                     through: {
                         from: 'posts.id',
-                        to: 'posts.creator_id'
+                        to: 'posts.creator_id',
                     },
                     to: 'users.id'
                 }

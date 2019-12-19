@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('users', (table => {
+    return knex.schema.createTableIfNotExists('users', (table => {
         table.increments('id').primary();
         table.string('email', 320).unique().notNullable();
         table.string('name', 255).notNullable();
@@ -10,9 +10,10 @@ exports.up = function(knex) {
         table.timestamp('join_date').defaultTo(knex.fn.now());
         table.boolean('displayEmail').defaultTo(false);
         table.string('website', 255);
+        table.string('password').notNullable();
     }));
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable('users');
+  return knex.schema.dropTableIfExists('users');
 };

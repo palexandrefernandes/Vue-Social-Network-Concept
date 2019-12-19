@@ -7,6 +7,10 @@ class File extends Model{
     static get tableName(){
         return 'files';
     }
+
+    static get idColumn(){
+        return 'id';
+    }
 }
 
 module.exports = File;

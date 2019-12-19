@@ -8,6 +8,10 @@ class Follower extends Model{
         return 'followers';
     }
 
+    static get idColumn(){
+        return ['user_id', 'followed_by_id'];
+    }
+
     static get relationMappings(){
         const User = require('./user');
         return {

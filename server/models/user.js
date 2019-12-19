@@ -8,9 +8,14 @@ class User extends Model {
         return 'users';
     }
 
+    static get idColumn(){
+        return 'id';
+    }
+
     static get relationMappings() {
         const Likes = require('./likes');
-        const Shoutouts = require('./shoutout');
+        const Shoutout = require('./shoutout');
+        const Post = require('./post');
         return {
             follows: {
                 relation: Model.ManyToManyRelation,
@@ -19,26 +24,28 @@ class User extends Model {
                     from: 'users.id',
                     through: {
                         from: 'followers.follows_id',
-                        to: 'followers.user_id'
+                        to: 'followers.user_id',
+                        extra: ['start_following']
                     },
                     to: 'users.id'
                 }
             },
-            followed: {
+            followers: {
                 relation: Model.ManyToManyRelation,
                 modelClass: User,
                 join: {
                     from: 'users.id',
                     through: {
                         from: 'followers.user_id',
-                        to: 'followers.follows_id'
+                        to: 'followers.follows_id',
+                        extra: ['start_following']
                     },
                     to: 'users.id'
                 }
             },
             shoutouts: {
                 relation: Model.HasManyRelation,
-                modelClass: Shoutouts,
+                modelClass: Shoutout,
                 join: {
                     from: 'users.id',
                     to: 'shoutouts.identified_id'
@@ -46,13 +53,20 @@ class User extends Model {
             },
             likes: {
                 relation: Model.HasManyRelation,
-                modelName: Likes,
+                modelClass: Likes,
                 join: {
                     from: 'users.id',
                     to: 'likes.user_id'
                 }
+            },
+            posts: {
+                relation: Model.HasManyRelation,
+                modelClass: Post,
+                join: {
+                    from: 'users.is',
+                    to: 'posts.creator_id'
+                }
             }
-
         }
     }
 }

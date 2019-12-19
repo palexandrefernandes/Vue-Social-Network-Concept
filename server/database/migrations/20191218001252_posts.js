@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('posts', (table => {
+    return knex.schema.createTableIfNotExists('posts', (table => {
         table.increments('id').primary();
         table.integer('creator_id').unsigned().references('users.id').notNullable();
         table.string('description', 500);
@@ -11,5 +11,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('posts');
+    return knex.schema.dropTableIfExists('posts');
 };
