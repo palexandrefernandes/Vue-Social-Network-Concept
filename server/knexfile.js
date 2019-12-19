@@ -1,5 +1,4 @@
 // Update with your config settings.
-
 module.exports = {
 
   development: {
@@ -9,6 +8,12 @@ module.exports = {
       user : 'root',
       password : 'teste',
       database : 'social'
+    },
+    migrations:{
+      directory: __dirname + '/database/migrations'
+    },
+    seeds:{
+      directory: __dirname + '/database/seeds'
     }
   },
 

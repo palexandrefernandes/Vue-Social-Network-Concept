@@ -17,4 +17,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+const User = require('./models/user');
+
 module.exports = app;
