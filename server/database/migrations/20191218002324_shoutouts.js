@@ -11,5 +11,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.dropTable('in_posts');
+    return knex.dropTable('shoutouts');
 };

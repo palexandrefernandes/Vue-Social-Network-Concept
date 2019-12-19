@@ -10,9 +10,10 @@ class Post extends Model{
 
     static get relationshipMappings(){
         const User = require('user');
+        const Shoutout = require('shoutout');
         return {
             createdBy:{
-                relation: Model.HasOneRelation,
+                relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join:{
                     from: 'posts.creator_id',
@@ -31,6 +32,14 @@ class Post extends Model{
                     to: 'users.id'
                 }
             },
+            shoutouts:{
+                relation: Model.HasManyRelation,
+                modelClass: Shoutout,
+                join: {
+                    from: 'posts.id',
+                    to: 'shoutouts.post_id'
+                }
+            }
         };
     }
 }

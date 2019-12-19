@@ -9,8 +9,25 @@ class Comment extends Model {
     }
 
     static get relationMapping(){
+        const Post = require('./post');
+        const User = require('./user');
         return {
-
+            post:{
+                relation: Model.HasOneRelation,
+                modelClass: Post,
+                join: {
+                    from: 'comments.post_id',
+                    to: 'posts.id'
+                }
+            },
+            by:{
+                relation: Model.HasOneRelation,
+                modelClass: User,
+                join: {
+                    from: 'comments.user_id',
+                    to: 'users.id'
+                }
+            }
         };
     }
 }

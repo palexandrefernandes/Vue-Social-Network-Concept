@@ -4,7 +4,9 @@ const knex = require('../database/knex');
 Model.knex(knex);
 
 class File extends Model{
-
+    static get tableName(){
+        return 'files';
+    }
 }
 
 module.exports = File;

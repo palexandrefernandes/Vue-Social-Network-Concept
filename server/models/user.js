@@ -1,20 +1,21 @@
-const { Model } = require('objection');
+const {Model} = require('objection');
 const knex = require('../database/knex');
 // knex setup
 Model.knex(knex);
 
-class User extends Model{
-    static get tableName(){
+class User extends Model {
+    static get tableName() {
         return 'users';
     }
 
-    static get relationMappings(){
+    static get relationMappings() {
         const Likes = require('./likes');
+        const Shoutouts = require('./shoutout');
         return {
-            followers: {
+            follows: {
                 relation: Model.ManyToManyRelation,
                 modelClass: User,
-                join:{
+                join: {
                     from: 'users.id',
                     through: {
                         from: 'followers.follows_id',
@@ -23,18 +24,35 @@ class User extends Model{
                     to: 'users.id'
                 }
             },
-            follows: {
+            followed: {
                 relation: Model.ManyToManyRelation,
                 modelClass: User,
-                join:{
-                    from: 'id',
+                join: {
+                    from: 'users.id',
                     through: {
                         from: 'followers.user_id',
                         to: 'followers.follows_id'
                     },
                     to: 'users.id'
                 }
+            },
+            shoutouts: {
+                relation: Model.HasManyRelation,
+                modelClass: Shoutouts,
+                join: {
+                    from: 'users.id',
+                    to: 'shoutouts.identified_id'
+                }
+            },
+            likes: {
+                relation: Model.HasManyRelation,
+                modelName: Likes,
+                join: {
+                    from: 'users.id',
+                    to: 'likes.user_id'
+                }
             }
+
         }
     }
 }
