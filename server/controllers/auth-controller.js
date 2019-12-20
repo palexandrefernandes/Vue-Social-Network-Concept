@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const {  jwtOptions } = require('../middlewares/passport');
 
-const secret = 'ThisAintNoSecret';
+
 const saltRounds = 10;
 
 async function signup(req, res, next) {
@@ -19,12 +20,8 @@ async function signup(req, res, next) {
 }
 
 async function getToken(req, res, next) {
-    let email = req.body.email;
-    let password = req.body.password;
-
+    let { password, email } = req.body;
     let user = await User.query().findOne({email: email});
-
-    console.log(user);
 
     if(user && await comparePasswords(password, user.password)){
         res.status(200).json({success: {token_type: 'Bearer', token: generateToken(user.id, user.name, 24)}});
@@ -35,7 +32,7 @@ async function getToken(req, res, next) {
 }
 
 function generateToken(id, name, durationInHours) {
-    return jwt.sign({id: id}, secret, {subject: name, issuer: 'ShoutOut', expiresIn: 60 * 60 * durationInHours});
+    return jwt.sign({id: id}, jwtOptions.secret, {subject: name, issuer: jwtOptions.issuer, audience: jwtOptions.audience, expiresIn: 60 * 60 * durationInHours});
 }
 
 function encryptPassword(password){

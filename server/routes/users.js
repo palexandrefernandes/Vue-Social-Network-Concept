@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/user-controller');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-});
+router.get('/api/user/:id', controller.getUserById);
+router.get('/api/user/search/:q', controller.searchUsers);
 
 module.exports = router;
