@@ -5,6 +5,7 @@ const logger = require('morgan');
 
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
+const followsRouter = require('./routes/followers');
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cookieParser());
 
 app.use('/', authRouter);
 app.use('/', usersRouter);
+app.use('/', followsRouter);
+
 
 app.use(function (req, res, next) {
     res.status(404).json({error: 'Sorry but the resource doesnt exist!'});

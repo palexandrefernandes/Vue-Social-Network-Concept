@@ -17,19 +17,6 @@ class User extends Model {
         const Shoutout = require('./shoutout');
         const Post = require('./post');
         return {
-            follows: {
-                relation: Model.ManyToManyRelation,
-                modelClass: User,
-                join: {
-                    from: 'users.id',
-                    through: {
-                        from: 'followers.follows_id',
-                        to: 'followers.user_id',
-                        extra: ['start_following']
-                    },
-                    to: 'users.id'
-                }
-            },
             followers: {
                 relation: Model.ManyToManyRelation,
                 modelClass: User,
@@ -37,8 +24,21 @@ class User extends Model {
                     from: 'users.id',
                     through: {
                         from: 'followers.user_id',
-                        to: 'followers.follows_id',
-                        extra: ['start_following']
+                        to: 'followers.followed_by_id',
+                        extra: ['start_following_date']
+                    },
+                    to: 'users.id'
+                }
+            },
+            follows: {
+                relation: Model.ManyToManyRelation,
+                modelClass: User,
+                join: {
+                    from: 'users.id',
+                    through: {
+                        from: 'followers.user_id',
+                        to: 'followers.followed_by_id',
+                        extra: ['start_following_date']
                     },
                     to: 'users.id'
                 }

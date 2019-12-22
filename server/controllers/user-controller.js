@@ -12,7 +12,7 @@ async function getUserById(req, res, next) {
         res.status(200).json(formatResponse(false, 'User found!', user));
     }
     else {
-        res.status(404).json(formatResponse(true, 'User not found!'));
+        res.status(404).json(formatResponse(true, 'User was not found!'));
     }
 }
 
@@ -24,7 +24,7 @@ async function searchUsers(req, res, next) {
         res.status(200).json(formatResponse(false, 'User found!', users));
     }
     else {
-        res.status(404).json(formatResponse(true, 'Users not found!'));
+        res.status(404).json(formatResponse(true, 'Users were not found!'));
     }
 }
 
@@ -33,7 +33,22 @@ function updateUserProfile(req, res, next){
 
 }
 
+async function deleteUserAccount(req, res, next) {
+    let {id} = req.params;
+    const numDeleted = await User.query().deleteById(id);
+    if(numDeleted > 1){
+        res.status(200).json(formatResponse(false, 'User was deleted!'));
+    }
+    else{
+        req.status(404).json(formatResponse(true, 'User was not found ro couldn\'t be deleted!'));
+    }
+}
+
+
+
 module.exports = {
     getUserById,
-    searchUsers
+    searchUsers,
+    updateUserProfile,
+    deleteUserAccount
 };

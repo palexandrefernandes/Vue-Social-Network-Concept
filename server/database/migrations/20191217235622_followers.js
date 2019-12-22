@@ -5,6 +5,8 @@ exports.up = function(knex) {
       table.integer('follows_id').unsigned().references('users.id').notNullable();
       table.timestamp('start_following_date').defaultTo(knex.fn.now());
       table.primary(['user_id', 'follows_id']);
+      table.boolean('accepted').notNullable().defaultTo(false);
+      table.timestamp('accepted_date');
   }));
 };
 

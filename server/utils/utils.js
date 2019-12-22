@@ -13,6 +13,9 @@ function verifyParameters(item, params, callback) {
     if(!_.isArray(params)){
         params = [params];
     }
+    if(!_.isObject(item)){
+        callback(new Error('Items is not an object'));
+    }
     for(let param of params){
         if(_.isUndefined(item[param])){
             callback(new MissingParamError(`${_.capitalize(param)} is missing!`));
