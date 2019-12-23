@@ -6,6 +6,7 @@ const logger = require('morgan');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const followsRouter = require('./routes/followers');
+const postsRouter = require('./routes/posts');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/', authRouter);
 app.use('/', usersRouter);
 app.use('/', followsRouter);
+app.use('/', postsRouter);
 
 
 app.use(function (req, res, next) {

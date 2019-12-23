@@ -15,6 +15,7 @@ class Post extends Model{
     static get relationshipMappings(){
         const User = require('user');
         const Shoutout = require('shoutout');
+        const Comment = require('comment');
         return {
             createdBy:{
                 relation: Model.BelongsToOneRelation,
@@ -37,12 +38,33 @@ class Post extends Model{
                     to: 'users.id'
                 }
             },
+            commentedBy:{
+                relation: Model.ManyToManyRelation,
+                model: User,
+                join: {
+                    from: 'posts.id',
+                    through: {
+                        from: 'comments.post_id',
+                        to: 'comments.creator_id',
+                        extra: ['comment']
+                    },
+                    to: 'users.id'
+                }
+            },
             shoutouts:{
                 relation: Model.HasManyRelation,
                 modelClass: Shoutout,
                 join: {
                     from: 'posts.id',
                     to: 'shoutouts.post_id'
+                }
+            },
+            comments: {
+                relation: Model.HasManyRelation,
+                moduleClass: Comment,
+                join: {
+                    from: 'posts.id',
+                    to: 'comments.post_id'
                 }
             }
         };
