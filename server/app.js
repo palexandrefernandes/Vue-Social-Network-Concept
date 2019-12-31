@@ -7,6 +7,7 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const followsRouter = require('./routes/followers');
 const postsRouter = require('./routes/posts');
+const shoutoutRouter = require('./routes/shoutouts');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/', authRouter);
 app.use('/', usersRouter);
 app.use('/', followsRouter);
 app.use('/', postsRouter);
+app.use('/', shoutoutRouter);
 
 
 app.use(function (req, res, next) {

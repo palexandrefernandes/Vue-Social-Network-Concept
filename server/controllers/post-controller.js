@@ -3,7 +3,7 @@ const Comment = require('../models/comment');
 const Likes = require('../models/likes');
 const User = require('../models/user');
 
-const { verifyParameters, formatResponse } = require('utils/utils');
+const { verifyParameters, formatResponse } = require('../utils/utils');
 
 async function getUserPostsByUser(req, res, next) {
     let {id} = verifyParameters(req.params, 'id', next);
@@ -63,6 +63,17 @@ async function getCommentCount(req, res, next) {
     res.status(200).json(formatResponse(false, 'Post comment count', commentCount[0]));
 }
 
+async function getPost(req, res, next){
+    let id = verifyParameters(req.params, 'id', next);
+    let post = await Post.query().findById(id);
+    if(post instanceof Post){
+        res.status(200).json(formatResponse(false, 'Post found!', post));
+    }
+    else{
+        res.status(404).json(formatResponse(true, 'Post not found!'));
+    }
+}
+
 
 module.exports = {
     createPost,
@@ -72,5 +83,6 @@ module.exports = {
     getCommentCount,
     getUserPostsByUser,
     getLikes,
-    getComments
+    getComments,
+    getPost
 };
