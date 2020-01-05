@@ -23,8 +23,7 @@ function verifyParameters(item, params, callback) {
             _.assign(obj, {[param]: item[param]});
         }
     }
-    console.log(obj);
-
+    
     return obj;
 }
 

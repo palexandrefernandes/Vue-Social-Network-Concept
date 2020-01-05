@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const {  jwtOptions } = require('../middlewares/passport');
-
+const { verifyParameters } = require('../utils/utils');
 
 const saltRounds = 10;
 
@@ -20,9 +20,8 @@ async function signup(req, res, next) {
 }
 
 async function getToken(req, res, next) {
-    let { password, email } = req.body;
+    let { password, email } = verifyParameters(req.body, ['password', 'email'], next);
     let user = await User.query().findOne({email: email});
-
     if(user && await comparePasswords(password, user.password)){
         res.status(200).json({success: {token_type: 'Bearer', token: generateToken(user.id, user.name, 24)}});
     }
