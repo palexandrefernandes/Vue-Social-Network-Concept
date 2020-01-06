@@ -1,6 +1,19 @@
 const express = require('express');
-const router = express.Router();
+const multer = require('multer');
 const controller = require('../controllers/post-controller');
+
+const router = express.Router();
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null , Date.now().toString()+file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.get('/api/post/:id', controller.getPost);
 router.get('/api/post/:id/comments/count', controller.getCommentCount);
@@ -9,8 +22,7 @@ router.get('/api/user/:id/posts', controller.getUserPostsByUser);
 router.get('/api/post/:id/comments', controller.getComments);
 router.get('/api/post/:id/likes', controller.getLikes);
 
-router.post('/api/post', controller.createPost);
-router.put('/api/post/:id', controller.editPost);
-router.delete('api/post/:id', controller.deletePost);
+router.post('/api/post', upload.single('image'), controller.createPost);
+router.delete('/api/post/:id', controller.deletePost);
 
 module.exports = router;

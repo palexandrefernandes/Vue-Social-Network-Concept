@@ -1,13 +1,23 @@
 <template>
-    <div class="container-fluid">
-        <div>
-            <b-form @submit="onSubmit">
-                <b-form-input v-model="email"  type="text" required placeholder="Enter your email"/>
-                <b-form-input v-model="password" type="password" required/>
-                <b-button type="submit" variant="primary">Submit</b-button>
-            </b-form>
-        </div>
-        {{ getTokenTest }}
+    <div>
+        <h2>Login</h2>
+        <b-form @submit="onSubmit">
+            <b-form-group
+                    id="input-group-1"
+                    label="Email address:"
+                    label-for="input-1"
+            >
+                <b-form-input id="input-1" v-model="email" type="text" required placeholder="Enter your email"/>
+            </b-form-group>
+            <b-form-group
+                    id="input-group-2"
+                    label="Password:"
+                    label-for="input-2"
+            >
+                <b-form-input id="input-2" v-model="password" type="password" required/>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Login</b-button>
+        </b-form>
     </div>
 </template>
 
@@ -20,17 +30,17 @@
         name: 'login',
         data() {
             return {
-                email:"",
-                password:"",
+                email: "",
+                password: "",
             };
         },
-        methods:{
+        methods: {
             onSubmit: function (env) {
                 env.preventDefault();
                 Axios.post(process.env.VUE_APP_BASE_URL + '/auth/token', {email: this.email, password: this.password})
                     .then(res => {
-                        //this.$cookies.set('auth-token', res.data.success.token_type + ' ' + res.data.success.token);
                         this.$store.dispatch('login', res.data.success.token);
+                        //this.$router.push("");
                     })
                     .catch(err => {
                         console.log(err.response.data.error);
@@ -38,8 +48,8 @@
 
             }
         },
-        computed:{
-            getTokenTest(){
+        computed: {
+            getTokenTest() {
                 return this.$store.getters.getToken;
             }
         }

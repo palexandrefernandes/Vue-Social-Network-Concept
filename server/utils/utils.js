@@ -36,7 +36,7 @@ function formatResponse(error, message, data){
         _.assign(resp, {success: message});
     }
     if(data){
-        _.assign(resp, data);
+        _.assign(resp, {data: data});
     }
     return resp;
 }

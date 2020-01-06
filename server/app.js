@@ -12,6 +12,7 @@ const shoutoutRouter = require('./routes/shoutouts');
 
 const app = express();
 
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,10 +31,13 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
-    if(err.name === 'MissingParamError')
+    if(err.name === 'MissingParamError') {
         res.status(400).json({error: err.message});
-    else
+    }
+    else{
+        console.log(err);
         res.status(500).json({error: err.message});
+    }
 });
 
 module.exports = app;

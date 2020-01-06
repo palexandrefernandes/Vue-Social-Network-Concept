@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const {  jwtOptions } = require('../middlewares/passport');
-const { verifyParameters } = require('../utils/utils');
+const { verifyParameters, formatResponse } = require('../utils/utils');
 
 const saltRounds = 10;
 
@@ -42,7 +42,31 @@ function comparePasswords(password, hash){
     return bcrypt.compare(password, hash).then(res => res).catch(err => false);
 }
 
+async function emailCheck(req, res, next){
+    let email = verifyParameters(req.body, 'email', next).email;
+    let user = await User.query().where('email', 'like', email);
+    if(user[0] instanceof User){
+        res.status(400).json(formatResponse(true, 'Email in use'));
+    }
+    else{
+        res.status(200).json(formatResponse(false, 'Email available'));
+    }
+}
+
+async function handleCheck(req, res, next){
+    let handle = verifyParameters(req.body, 'handle', next).handle;
+    let user = await User.query().where('handle', 'like', handle);
+    if(user[0] instanceof User){
+        res.status(400).json(formatResponse(true, 'Handle in use'));
+    }
+    else{
+        res.status(200).json(formatResponse(false, 'Handle available'));
+    }
+}
+
 module.exports = {
     signup,
-    getToken
+    getToken,
+    emailCheck,
+    handleCheck
 };

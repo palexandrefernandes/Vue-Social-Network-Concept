@@ -2,11 +2,13 @@ const Post = require('../models/post');
 const Comment = require('../models/comment');
 const Likes = require('../models/likes');
 const User = require('../models/user');
+const _ = require('lodash');
 
 const { verifyParameters, formatResponse } = require('../utils/utils');
 
 async function getUserPostsByUser(req, res, next) {
     let {id} = verifyParameters(req.params, 'id', next);
+
     let posts = await Post.query().where('creator_id', '=', id);
 
     if (posts.length > 0){
@@ -18,18 +20,26 @@ async function getUserPostsByUser(req, res, next) {
 }
 
 // might need upload
-function createPost(req, res, next) {
+async function createPost(req, res, next) {
+    let info = {title, description} = verifyParameters(req.body, ['title', 'description'], next);
+    info.file_path = req.file.filename;
+    _.assign(info, {creator_id: req.user[0].id});
+    let post = await Post.query().insert(info);
+    if( post instanceof Post){
+        res.status(200).json(formatResponse(false, 'Post created!'));
+    } else {
+        res.status(400).json(formatResponse(true, 'Error creating the post!'));
+    }
 
 }
 
-// same
-function editPost(req, res, next) {
-
-}
 
 async function deletePost(req, res, next) {
-    let {userId} = verifyParameters(req.user, 'id', next);
+    let userId = req.user[0].id;
     let postId = verifyParameters(req.params, 'id', next).id;
+
+    console.log(userId);
+
     let post = await Post.query().delete().where('id', '=', postId).where('creator_id', '=', userId);
     if(post > 0){
         res.status(200).json(formatResponse(false, 'Post deleted!'));
@@ -77,7 +87,6 @@ async function getPost(req, res, next){
 
 module.exports = {
     createPost,
-    editPost,
     deletePost,
     getLikeCount,
     getCommentCount,

@@ -4,7 +4,7 @@ const User = require('../models/user');
 const passport = require('passport');
 
 // Add to the array paths that should be ignored by passport
-const ignoredPaths = ['/api/auth/token', '/api/auth/signup', '/api/auth/test'];
+const ignoredPaths = ['/api/auth/token', '/api/auth/signup', '/api/auth/test', '/api/auth/email', '/api/auth/handle'];
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

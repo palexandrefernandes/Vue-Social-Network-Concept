@@ -33,7 +33,7 @@ export default new Vuex.Store({
             }
         },
         logout(context){
-            Vue.$cookies.remove('auth_key');
+            Vue.$cookies.remove('auth_token');
             context.commit('SET_NOT_LOGGED_IN');
         }
     },
