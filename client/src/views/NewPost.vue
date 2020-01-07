@@ -49,6 +49,10 @@
                 description: ""
             }
         },
+        mounted() {
+            if(this.$store.getters.getToken == "")
+                this.$router.push('/login');
+        },
         methods: {
             onSubmit(evt) {
                 console.log(this.image);

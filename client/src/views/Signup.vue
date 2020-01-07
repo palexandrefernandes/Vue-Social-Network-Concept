@@ -52,6 +52,10 @@
                 errorMessage: "Something went wrong creating a new account!"
             };
         },
+        mounted() {
+            if(this.$store.getters.getToken != "")
+                this.$router.push('/feed');
+        },
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();

@@ -7,9 +7,9 @@ exports.up = function(knex) {
         table.string('description', 500);
         table.date('birth_date').defaultTo(null);
         table.timestamp('join_date').defaultTo(knex.fn.now());
-        table.boolean('displayEmail').defaultTo(false);
-        table.string('website', 255);
+        table.boolean('public').defaultTo(false);
         table.string('password').notNullable();
+        table.string('profile_image', 255).defaultTo('default.png').notNullable();
     }));
 };
 

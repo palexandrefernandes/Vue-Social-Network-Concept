@@ -36,9 +36,9 @@ class User extends Model {
                 join: {
                     from: 'users.id',
                     through: {
-                        from: 'followers.user_id',
-                        to: 'followers.followed_by_id',
-                        extra: ['start_following_date']
+                        from: 'followers.followed_by_id',
+                        to: 'followers.user_id',
+                        extra: ['start_following_date', 'accepted']
                     },
                     to: 'users.id'
                 }

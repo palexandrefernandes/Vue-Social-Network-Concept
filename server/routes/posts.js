@@ -21,8 +21,13 @@ router.get('/api/post/:id/likes/count', controller.getLikeCount);
 router.get('/api/user/:id/posts', controller.getUserPostsByUser);
 router.get('/api/post/:id/comments', controller.getComments);
 router.get('/api/post/:id/likes', controller.getLikes);
+router.post('/api/post/:id/like', controller.like);
+router.delete('/api/post/:id/like', controller.unlike);
+router.get('/api/post/:id/like', controller.isLiked);
 
 router.post('/api/post', upload.single('image'), controller.createPost);
 router.delete('/api/post/:id', controller.deletePost);
+
+router.get('/api/posts/feed', controller.getFeed);
 
 module.exports = router;

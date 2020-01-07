@@ -18,7 +18,7 @@ async function getUserById(req, res, next) {
 
 async function searchUsers(req, res, next) {
     let {q} = req.params;
-    let users = await User.query().select('id', 'name', 'handle', 'description').where('handle', 'like', `%${q}%`).orWhere('name', 'like', `%${q}%`);
+    let users = await User.query().select('id', 'name', 'handle', 'description', 'profile_image').where('handle', 'like', `%${q}%`).orWhere('name', 'like', `%${q}%`);
 
     if(users[0] instanceof User){
         res.status(200).json(formatResponse(false, 'User found!', users));
@@ -29,7 +29,32 @@ async function searchUsers(req, res, next) {
 }
 
 // Will need upload and such
-function updateUserProfile(req, res, next){
+async function updateUserProfile(req, res, next){
+    let id = req.user[0].id;
+    let update = {};
+    if(req.body.name)
+        _.assign(update, {name: req.body.name});
+    if(req.body.description)
+        _.assign(update, {description: req.body.description});
+
+    if(req.body.public){
+        _.assign(update, {"public": true});
+    }
+    else{
+        _.assign(update, {"public": false});
+    }
+
+    if(req.file)
+        _.assign(update, {profile_image: req.file.filename});
+
+    let user = await User.query().findById(id).patch(update);
+    console.log(user);
+    if(user > 0){
+        res.status(200).json(formatResponse(false, 'User updated!'));
+    }
+    else{
+        res.status(400).json(formatResponse(false, 'Error updating user!'));
+    }
 
 }
 

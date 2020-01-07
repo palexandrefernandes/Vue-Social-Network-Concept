@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const followsRouter = require('./routes/followers');
 const postsRouter = require('./routes/posts');
 const shoutoutRouter = require('./routes/shoutouts');
+const commentRouter = require('./routes/comments');
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.use('/', usersRouter);
 app.use('/', followsRouter);
 app.use('/', postsRouter);
 app.use('/', shoutoutRouter);
-
+app.use('/', commentRouter);
 
 app.use(function (req, res, next) {
     res.status(404).json({error: 'Sorry but the resource doesnt exist!'});

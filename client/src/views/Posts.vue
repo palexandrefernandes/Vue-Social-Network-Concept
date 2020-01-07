@@ -7,21 +7,21 @@
 <script>
     import Axios from 'axios';
     import Post from "../components/Post";
+    import jwt from "jsonwebtoken";
 
     export default {
         name: "Posts",
         components: {Post},
         data() {
             return {
-                posts: null
+                posts: []
             }
         },
         mounted() {
-            console.log(this.$store.getters.getToken);
-
-            Axios.get(process.env.VUE_APP_BASE_URL + `/user/1/posts`, {headers: {Authorization: 'Bearer ' + this.$store.getters.getToken }})
+            if(this.$store.getters.getToken == "")
+                this.$router.push('/login');
+            Axios.get(process.env.VUE_APP_BASE_URL + `/user/${jwt.decode(this.$store.getters.getToken).id}/posts`, {headers: {Authorization: 'Bearer ' + this.$store.getters.getToken }})
             .then(res => {
-                console.log(res.data.data);
                 this.posts = res.data.data;
             })
             .catch(err => {

@@ -9,13 +9,13 @@ class Post extends Model{
     }
 
     static get idColumn(){
-        return 'post_id';
+        return 'id';
     }
 
-    static get relationshipMappings(){
-        const User = require('user');
-        const Shoutout = require('shoutout');
-        const Comment = require('comment');
+    static get relationMappings(){
+        const User = require('./user');
+        const Shoutout = require('./shoutout');
+        const Comment = require('./comment');
         return {
             createdBy:{
                 relation: Model.BelongsToOneRelation,
@@ -27,12 +27,12 @@ class Post extends Model{
             },
             likedBy:{
                 relation: Model.ManyToManyRelation,
-                model: User,
+                modelClass: User,
                 join: {
                     from: 'posts.id',
                     through: {
                         from: 'likes.post_id',
-                        to: 'like.user_id',
+                        to: 'likes.user_id',
                         extra: ['liked_date']
                     },
                     to: 'users.id'
@@ -61,7 +61,7 @@ class Post extends Model{
             },
             comments: {
                 relation: Model.HasManyRelation,
-                moduleClass: Comment,
+                modelClass: Comment,
                 join: {
                     from: 'posts.id',
                     to: 'comments.post_id'
