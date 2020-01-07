@@ -32,12 +32,15 @@ npm run serve
 ```
 
 **Server**
-* Migrating is optional
+1. Create a schema named social in a MySQL server instance
+2. Update the knex setup file with the database server info and credentials
+
 ```
 cd /client
 npx knex migrate:latest
 nodemon
 ```
+* Migrating is optional
 
 ##### Notes
 Client to server authorization is handled by a middleware that uses passport in combination with json web tokens to achieve a basic (OAuth Implicit like) authorization that works but should be reconsidered if this was to go to production.
