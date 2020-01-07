@@ -1,3 +1,6 @@
 server/node_modules/
 server/.idea/
 server/.vscode/
+client/.idea/
+client/.vscode/
+.idea

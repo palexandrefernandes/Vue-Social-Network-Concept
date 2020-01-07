@@ -1,7 +1,7 @@
 # SIR_SN
 Image sharing social network developed for the final project of SIR lectured at IPVC in 2019/2020.
 
-###Frameworks and languages used:
+### Frameworks and languages used:
 **Client** 
 
 - JavaScript (ES6)
@@ -24,7 +24,7 @@ Image sharing social network developed for the final project of SIR lectured at 
 - bcrypt
 - ...
 
-###Start Up
+### Start Up
 **Client**
 ```
 cd /client
@@ -39,6 +39,6 @@ npx knex migrate:latest
 nodemon
 ```
 
-#####Notes
+##### Notes
 Client to server authorization is handled by a middleware that uses passport in combination with json web tokens to achieve a basic (OAuth Implicit like) authorization that works but should be reconsidered if this was to go to production.
 
