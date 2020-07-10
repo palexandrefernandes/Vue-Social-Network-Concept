@@ -42,6 +42,10 @@ nodemon
 ```
 * Migrating is optional
 
+### Screenshots
+![Hero](https://raw.githubusercontent.com/Hydreath/SIR-Social-Network-Concept/master/images/main.png)
+![Post card](https://raw.githubusercontent.com/Hydreath/SIR-Social-Network-Concept/master/images/card.png)
+
 ##### Notes
 Client to server authorization is handled by a middleware that uses passport in combination with json web tokens to achieve a basic (OAuth Implicit like) authorization that works but should be reconsidered if this was to go to production.
 
