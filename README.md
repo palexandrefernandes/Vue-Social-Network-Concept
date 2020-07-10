@@ -1,4 +1,4 @@
-# SIR_SN
+# SIR Social Network Concept Website
 Image sharing social network developed for the final project of SIR lectured at IPVC in 2019/2020.
 
 ### Frameworks and languages used:
